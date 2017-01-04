@@ -41,14 +41,20 @@ import (
 	"github.com/go-gem/gem"
 )
 
+// New returns a rate limiter.
+//
+// maximum number of requests during the given duration.
 func New(max int64, ttl time.Duration) *Limiter {
 	return &Limiter{tollbooth.NewLimiter(max, ttl)}
 }
 
+// Limiter is a HTTP middleware that limit
+// API usage of each user.
 type Limiter struct {
 	*config.Limiter
 }
 
+// Wrap implements the Middleware interface.
 func (l *Limiter) Wrap(next gem.Handler) gem.Handler {
 	return gem.HandlerFunc(func(ctx *gem.Context) {
 		err := tollbooth.LimitByRequest(l.Limiter, ctx.Request)
