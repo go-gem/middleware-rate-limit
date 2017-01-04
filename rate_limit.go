@@ -24,7 +24,7 @@ Example
 			ctx.HTML(200, "hello")
 		}, &gem.HandlerOption{
 			Middlewares:[]gem.Middleware{
-				ratelimit.New(1, time.Second),
+				ratelimit.New(60, time.Minute),
 			},
 		})
 
